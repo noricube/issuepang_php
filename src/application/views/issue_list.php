@@ -1,15 +1,46 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Welcome to CodeIgniter</title>
 
+	<style>
+		@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+	</style>
 	<style type="text/css">
+		
 		.comment_name
 		{
 			color: #996600;
+		}
+		
+		.comment_date
+		{
+			color: #999;
+		}
+		
+		.comments p
+		{
+			margin: 0px;
+			line-height: 1.2;
+		}
+		
+		.owner
+		{
+			margin: 0px;
+		}
+		
+		.issue_id
+		{
+			margin: 0px;
+		}
+		
+		p, body
+		{
+			font-family: 'Nanum Gothic', sans-serif !important;
 		}
 	</style>
 	
@@ -52,10 +83,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 		<table class="table table-striped table-bordered table-hover">
 		<thead>
-			<tr class="success" title="{}포함 / {}제외">
-				<th class="col-md-1">담당</th>
+			<tr class="success">
+				<th class="col-md-1">담당 / 이슈ID</th>
 				<th class="col-md-1">관리정보</th>
-				<th class="col-md-5" onclick="issue_add('1');" _onmouseover="this.bgColor='#777777'" _onmouseout="this.bgColor='#000000'">모든 작업-진행<span id='cnt_1'></span></th>
+				<th class="col-md-5" onclick="issue_add('1');" _onmouseover="this.bgColor='#777777'" _onmouseout="this.bgColor='#000000'"><?=$issue_group['Title']?></th>
 				<th class="col-md-5">진행 상황</th>
 			</tr>
 		</thead>
@@ -65,21 +96,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{
 			?>	
 					<tr>
-						<td><?=$issues['Owner']?></td>
-						<td><?=$issues['Status']?></td>
+						<td style="text-align: center;">
+						<?php if ( strlen($issues['Owner']) == 0 )
+						{
+							?>
+								<p class="owner"><a href="<?=site_url(array('issue', 'toggle_assign', $issues['SN']))?>">[ - ]</a></p>
+							<?php
+							
+						}
+						else
+						{
+							?>
+								<p class="owner"><a href="<?=site_url(array('issue', 'toggle_assign', $issues['SN']))?>"><?=$issues['Owner']?></a></p>
+							<?php
+						}	
+						?>
+							<p class="issue_no"><?=$issues['SN']?></p>
+						</td>
+						<td style="text-align: center;">
+							<div class="btn-group" role="group">
+								<a href="#" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><?=$issues['Status']?><span class="caret"></span></a>
+								<ul class="dropdown-menu">
+								<?php foreach($set_order as &$order )
+								{ ?>
+									<li><a href="<?=site_url(array('issue', 'change_status', $issues['SN'], $order))?>"><?=$order?></a></li>
+								<?php
+								}
+								?>
+								</ul>
+								<a href="#" class="btn btn-xs btn-default" onclick="tag_add('2');">+</a>
+							</div>
+						</td>
 						<td class="markdown"><?=$issues['Issue']?></td>
-						<td>
+						<td class="comments">
 							<?php
 								foreach($issues['Comments'] as &$comment )
 								{
 							?>
 									<p>
 										<span class="comment_name"><?=$comment['Writer']?></span>
-										<?=$comment['Comment']?>
+										<?=auto_link_text($comment['Comment'])?>
+										<span class="comment_date"><?=date('m-d H:i' ,strtotime($comment['WrittenTime']))?></span>
 									</p>
 							<?php
 								}
 							?>
+							<p>
+								<button class="btn btn-xs btn-default">답글</button>
 						</td>
 					</tr>
 			<?php
@@ -101,6 +164,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
 
 <script type="text/javascript">
+
+	/* marked 링크를 새창으로 열리도록 */
+	myRenderer = new marked.Renderer();
+	myRenderer.link = function(href, title, text) {
+		var external, newWindow, out;
+		
+		external = /^https?:\/\/.+$/.test(href);
+		newWindow = external || title === 'newWindow';
+		
+		out = "<a href=\"" + href + "\"";
+		if (newWindow) {
+			out += ' target="_blank"';
+		}
+		if (title && title !== 'newWindow') {
+			out += " title=\"" + title + "\"";
+		}
+		
+		return out += ">" + text + "</a>";
+	};
+	
+	marked.setOptions({renderer: myRenderer});
+	
+	
 	$(document).ready(function() {
 		$('.markdown').each(function() {
 			var text = $(this).html();

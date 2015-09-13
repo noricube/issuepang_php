@@ -14,6 +14,26 @@ class Issue_model extends CI_Model {
                 parent::__construct();
         }
 		
+		public function get_issue($sn, $with_comments = true, $with_tags = true)
+		{
+			$query = $this->db->from('Issue')->where('SN', $sn)->get();
+			
+			
+			$issue =  $query->row_array();
+			
+			if ( $with_comments )
+			{
+				$issue['Comments'] = $this->get_comments($issue['SN']);
+			}
+			
+			if ( $with_tags )
+			{
+				$issue['Tags'] = $this->get_tags($issue['SN']);
+			}
+			
+			return $issue;
+		}
+		
 		public function get_issues_by_status($status)
 		{
 			$query = $this->db->from('Issue')->where('Status', $status)->get();
@@ -48,6 +68,16 @@ class Issue_model extends CI_Model {
 			}
 			
 			return $tags;
+		}
+
+		public function set_issue_owner($sn, $owner)
+		{
+			$this->db->set('Owner', $owner)->where('SN', $sn)->update('Issue');
+		}
+		
+		public function set_status($sn, $status)
+		{
+			$this->db->set('Status', $status)->where('SN', $sn)->update('Issue');
 		}
 
 }
