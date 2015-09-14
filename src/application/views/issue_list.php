@@ -45,10 +45,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</style>
 	
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
 
 	<!-- Optional theme -->
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
 </head>
 <body>
@@ -156,12 +156,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 </div>
 
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="https://fb.me/react-with-addons-0.13.3.min.js"></script>
-<script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//fb.me/react-with-addons-0.13.3.min.js"></script>
+<script src="//fb.me/JSXTransformer-0.13.3.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+<script src="//cdn.jsdelivr.net/refluxjs/0.2.11/reflux.min.js"></script>
 
 <script type="text/javascript">
 
