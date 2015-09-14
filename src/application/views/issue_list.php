@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?><!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 	<meta charset="utf-8">
 	<title>Welcome to CodeIgniter</title>
@@ -11,7 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 	</style>
 	<style type="text/css">
-		
 		.comment_name
 		{
 			color: #996600;
@@ -24,20 +23,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		.comments p
 		{
-			margin: 0px;
+			margin: 0em;
 			line-height: 1.2;
 		}
 		
 		.owner
 		{
-			margin: 0px;
+			margin: 0em;
 		}
 		
 		.issue_id
 		{
-			margin: 0px;
+			margin: 0em;
 		}
-		
+
 		p, body
 		{
 			font-family: 'Nanum Gothic', sans-serif !important;
@@ -52,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </head>
 <body>
+<?php /*
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -156,15 +156,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 </div>
 
+*/ ?>
+
+<section id="app"></section>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="//fb.me/react-with-addons-0.13.3.min.js"></script>
+<script src="//fb.me/react-with-addons-0.13.3.js"></script>
 <script src="//fb.me/JSXTransformer-0.13.3.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
 <script src="//cdn.jsdelivr.net/refluxjs/0.2.11/reflux.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<Script src="//cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.min.js"></script>
 
 <script type="text/javascript">
-
 	/* marked 링크를 새창으로 열리도록 */
 	myRenderer = new marked.Renderer();
 	myRenderer.link = function(href, title, text) {
@@ -185,15 +190,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	};
 	
 	marked.setOptions({renderer: myRenderer});
-	
-	
-	$(document).ready(function() {
-		$('.markdown').each(function() {
-			var text = $(this).html();
-			$(this).html(marked(text));
-		});
-	});
 </script>
+
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue.js" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_actions.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_store.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_comment.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_comments.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_row.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_group.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/app.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/main.jsx" charset="utf-8"></script>
 
 </body>
 </html>

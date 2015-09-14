@@ -26,6 +26,32 @@ class Issue extends CI_Controller {
 		$this->load->view('issue_list', array('issue_groups' => &$issue_groups, 'set_order' => &$set_order));
 	}
 	
+	public function issues()
+	{	
+		$this->load->model('Issue_model');
+		$this->load->helper('url');
+		$this->load->helper('text_helper');
+		
+		$part_order = array( "진행", "검토", "완료", "검수", "보류", "중지" );
+		$set_order = array( "검토", "진행", "완료", "검수", "보류", "중지" );
+		
+		
+		$issue_groups = array();
+		
+		foreach($part_order as &$i)
+		{
+			$issue_groups[] = array(
+				'Title' => "모든 이슈-$i",
+				'Issues' => $this->Issue_model->get_issues_by_status($i)
+			);
+		}
+		
+		$this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode(array('issue_groups' => &$issue_groups, 'set_order' => &$set_order)));
+	}
+	
+	
 	public function toggle_assign($sn)
 	{
 		$this->load->model('Issue_model');
