@@ -34,9 +34,11 @@ class Issue_model extends CI_Model {
 			return $issue;
 		}
 		
-		public function get_issues_by_status($status)
+		public function get_issues($last_update = 0)
 		{
-			$query = $this->db->from('Issue')->where('Status', $status)->get();
+			$date = date("Y-m-d H:m:s", $last_update);
+
+			$query = $this->db->from('Issue')->where('ModifiedTime >=', $date )->get();
 			
 			$issues = $query->result_array();
 			foreach($issues as &$issue)
@@ -72,12 +74,12 @@ class Issue_model extends CI_Model {
 
 		public function set_issue_owner($sn, $owner)
 		{
-			$this->db->set('Owner', $owner)->where('SN', $sn)->update('Issue');
+			$this->db->set('Owner', $owner)->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $sn)->update('Issue');
 		}
 		
 		public function set_status($sn, $status)
 		{
-			$this->db->set('Status', $status)->where('SN', $sn)->update('Issue');
+			$this->db->set('Status', $status)->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $sn)->update('Issue');
 		}
 
 }

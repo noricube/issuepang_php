@@ -4,18 +4,24 @@
         this.listenTo(IssueActions.load, this.fetchData);
     },
     getInitialState: function () {
-        this.issue_groups = [];
-        return this.issue_groups;
+		this.data = {issue_groups:[], last_update: 0};
+        return this.data;
     },
     fetchData: function () {
         superagent.get('issues').end(function (err, res) {
-            var issue_groups = JSON.parse(res.text).issue_groups;
-			
-			this.issue_groups = issue_groups.map(function (issue_group) {
-				return new Issue(issue_group.Title, issue_group.Issues);
-			});
-			
-			this.trigger(this.issue_groups);
+			var json_result = JSON.parse(res.text);
+			this.updateData(json_result.issue_groups, json_result.last_update);
         }.bind(this));
     },
+	
+	updateData: function(issue_groups, last_update) {
+		this.data.issue_groups = issue_groups.map(function (issue_group) {
+			return new Issue(issue_group.Title, issue_group.Issues);
+		});
+		
+		this.data.last_update = last_update;
+		
+		this.trigger(this.data);
+		
+	}
 });

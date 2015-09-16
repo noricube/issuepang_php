@@ -2,7 +2,7 @@
     render: function() {
 		var items = this.props.issues.map(function (issue) {
 			return (
-					<IssueRow key={issue.SN} status={issue.Status} issue={issue.Issue} comments={issue.Comments} tags={issue.Tags} />
+					<IssueRow key={issue.SN} issue={issue} />
 				);
 		});
 

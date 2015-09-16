@@ -1,5 +1,5 @@
 ﻿var App = React.createClass({
-    mixins: [Reflux.connect(IssueStore, "issue_groups")],
+    mixins: [Reflux.connect(IssueStore, "issues")],
 	propTypes: {
         issue_groups: React.PropTypes.array           
     },
@@ -8,7 +8,8 @@
     },
     render: function () {
 		
-		var items = this.state.issue_groups.map(function (issue_group) {
+		console.log(this.state);
+		var items = this.state.issues.issue_groups.map(function (issue_group) {
 			return <IssueGroup key={issue_group.Title} issues={issue_group.Issues} />;
 		});
 

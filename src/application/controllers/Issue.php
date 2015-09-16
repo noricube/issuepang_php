@@ -9,24 +9,10 @@ class Issue extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('text_helper');
 		
-		$part_order = array( "진행", "검토", "완료", "검수", "보류", "중지" );
-		$set_order = array( "검토", "진행", "완료", "검수", "보류", "중지" );
-		
-		
-		$issue_groups = array();
-		
-		foreach($part_order as &$i)
-		{
-			$issue_groups[] = array(
-				'Title' => "모든 이슈-$i",
-				'Issues' => $this->Issue_model->get_issues_by_status($i)
-			);
-		}
-		
-		$this->load->view('issue_list', array('issue_groups' => &$issue_groups, 'set_order' => &$set_order));
+		$this->load->view('issue_list');
 	}
 	
-	public function issues()
+	public function issues($last_update = 0)
 	{	
 		$this->load->model('Issue_model');
 		$this->load->helper('url');
@@ -38,21 +24,21 @@ class Issue extends CI_Controller {
 		
 		$issue_groups = array();
 		
-		foreach($part_order as &$i)
-		{
+		//foreach($part_order as &$i)
+		//{
 			$issue_groups[] = array(
-				'Title' => "모든 이슈-$i",
-				'Issues' => $this->Issue_model->get_issues_by_status($i)
+				'Title' => "모든 이슈",
+				'Issues' => $this->Issue_model->get_issues($last_update)
 			);
-		}
+		//}
 		
 		$this->output
         ->set_content_type('application/json')
-        ->set_output(json_encode(array('issue_groups' => &$issue_groups, 'set_order' => &$set_order)));
+        ->set_output(json_encode(array('issue_groups' => &$issue_groups, 'set_order' => &$set_order, 'last_update'=> $_SERVER['REQUEST_TIME'] )));
 	}
 	
 	
-	public function toggle_assign($sn)
+	public function toggle_assign($sn, $last_update = 0)
 	{
 		$this->load->model('Issue_model');
 		$this->load->helper('url');
@@ -68,16 +54,16 @@ class Issue extends CI_Controller {
 			$this->Issue_model->set_issue_owner($sn, '');
 		}
 		
-		redirect('/issue');
+		return $this->issues($last_update);
 	}
 	
-	public function change_status($sn, $status)
+	public function change_status($sn, $last_update)
 	{
 		$this->load->model('Issue_model');
 		$this->load->helper('url');
 		
 		$this->Issue_model->set_status($sn, urldecode($status));
 		
-		redirect('/issue');
+		return $this->issues($last_update);
 	}
 }
