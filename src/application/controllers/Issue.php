@@ -26,7 +26,7 @@ class Issue extends CI_Controller {
 		
 		$this->output
         ->set_content_type('application/json')
-        ->set_output(json_encode(array('issues' => &$issues, 'set_order' => &$set_order, 'last_update'=> $_SERVER['REQUEST_TIME'] )));
+        ->set_output(json_encode(array('issues' => &$issues, 'last_update'=> $_SERVER['REQUEST_TIME'] )));
 	}
 	
 	
