@@ -18,8 +18,8 @@ class Issue extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('text_helper');
 		
-		$part_order = array( "진행", "검토", "완료", "검수", "보류", "중지" );
-		$set_order = array( "검토", "진행", "완료", "검수", "보류", "중지" );
+		//$part_order = array( "진행", "검토", "완료", "검수", "보류", "중지" );
+		//$set_order = array( "검토", "진행", "완료", "검수", "보류", "중지" );
 		
 		
 		$issues = $this->Issue_model->get_issues($last_update);
@@ -55,6 +55,33 @@ class Issue extends CI_Controller {
 		$this->load->helper('url');
 		
 		$this->Issue_model->set_status($sn, urldecode($status));
+		
+		return $this->issues($last_update);
+	}
+	
+		
+	public function edit_issue($sn)
+	{
+		$this->load->model('Issue_model');
+		$this->load->helper('url');
+		
+		$title = $this->input->post('issue');
+		$last_update = $this->input->post('last_update');
+		
+		$this->Issue_model->set_issue_title($sn, $title);
+		
+		return $this->issues($last_update);
+	}
+	
+	public function edit_comment($sn_cmt)
+	{
+		$this->load->model('Issue_model');
+		$this->load->helper('url');
+		
+		$comment = $this->input->post('comment');
+		$last_update = $this->input->post('last_update');
+		
+		$this->Issue_model->set_issue_comment($sn_cmt, $comment);
 		
 		return $this->issues($last_update);
 	}

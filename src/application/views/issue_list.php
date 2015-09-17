@@ -32,6 +32,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			margin: 0em;
 		}
 		
+		.issue .issue_editor
+		{
+			display:none;
+		}
+		
+		.issue_edit .issue_title
+		{
+			display:none;
+		}
+		
 		.issue_id
 		{
 			margin: 0em;
@@ -190,6 +200,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	};
 	
 	marked.setOptions({renderer: myRenderer});
+	
+	csrfToken = '<?php echo $this->security->get_csrf_token_name(); ?>';
+	csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
 </script>
 
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue.js" charset="utf-8"></script>

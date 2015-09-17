@@ -77,6 +77,20 @@ class Issue_model extends CI_Model {
 			$this->db->set('Owner', $owner)->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $sn)->update('Issue');
 		}
 		
+		public function set_issue_title($sn, $title)
+		{
+			$this->db->set('Issue', $title)->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $sn)->update('Issue');
+		}
+		
+		public function set_issue_comment($sn_cmt, $comment)
+		{
+			$query = $this->db->from('Comment')->where('SN_Cmt', $sn_cmt)->get();
+			$comment_row = $query->row_array();
+			
+			$this->db->set('Comment', $comment)->where('SN_Cmt', $sn_cmt)->update('Comment');
+			$this->db->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $comment_row['SN'])->update('Issue');
+		}
+		
 		public function set_status($sn, $status)
 		{
 			$this->db->set('Status', $status)->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $sn)->update('Issue');
