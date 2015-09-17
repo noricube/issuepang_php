@@ -1,5 +1,5 @@
 ﻿var App = React.createClass({
-    mixins: [Reflux.connect(IssueStore, "issues")],
+    mixins: [Reflux.connect(IssueStore, "data")],
 	propTypes: {
         issue_groups: React.PropTypes.array           
     },
@@ -7,15 +7,16 @@
         IssueActions.load();
     },
     render: function () {
+		var values = new Array;
+		for( var key in this.state.data.issues)
+		{
+			values.push(this.state.data.issues[key]);
+		}
 		
-		console.log(this.state);
-		var items = this.state.issues.issue_groups.map(function (issue_group) {
-			return <IssueGroup key={issue_group.Title} issues={issue_group.Issues} />;
-		});
-
+		//<!--<IssueGroup key="all" issues={this.state.data.issues} />-->
         return (
 			<div className="container-fluid">
-				{items}
+				<IssueGroup key="title" issues={values} />
 			</div>
         );
     }

@@ -7,7 +7,7 @@ var IssueActions = Reflux.createActions([
 IssueActions.toggleOwner.preEmit = function(sn) {
     superagent.get('toggle_assign/' + sn + '/' + IssueStore.data.last_update, function (err, res) {
 		var json_result = JSON.parse(res.text);
-		IssueStore.updateData(json_result.issue_groups, json_result.last_update);
+		IssueStore.updateData(json_result.issues, json_result.last_update);
 
 	});
 };

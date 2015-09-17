@@ -22,19 +22,11 @@ class Issue extends CI_Controller {
 		$set_order = array( "검토", "진행", "완료", "검수", "보류", "중지" );
 		
 		
-		$issue_groups = array();
-		
-		//foreach($part_order as &$i)
-		//{
-			$issue_groups[] = array(
-				'Title' => "모든 이슈",
-				'Issues' => $this->Issue_model->get_issues($last_update)
-			);
-		//}
+		$issues = $this->Issue_model->get_issues($last_update);
 		
 		$this->output
         ->set_content_type('application/json')
-        ->set_output(json_encode(array('issue_groups' => &$issue_groups, 'set_order' => &$set_order, 'last_update'=> $_SERVER['REQUEST_TIME'] )));
+        ->set_output(json_encode(array('issues' => &$issues, 'set_order' => &$set_order, 'last_update'=> $_SERVER['REQUEST_TIME'] )));
 	}
 	
 	
