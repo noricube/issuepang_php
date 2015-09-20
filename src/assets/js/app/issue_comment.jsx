@@ -47,10 +47,12 @@
 			editorStyle.display = 'inline';
 		}
 		
+		var link_comment = Autolinker.link( this.props.comment, {rel: 'nofollow'} );
+
         return (
 				<p>
 					<span className="comment_name">{this.props.writer}</span>&nbsp;
-					<span onDoubleClick={this.handleEdit} className="comment">{this.props.comment}</span>&nbsp;
+					<span onDoubleClick={this.handleEdit} className="comment" dangerouslySetInnerHTML={{__html: link_comment}}></span>&nbsp;
 					<span className="comment_date">{timeStr}</span>
 					<p style={editorStyle}>
 						<textarea onChange={this.handleChange} style={{width: '100%', minHeight: '2.5em'}} type="text" defaultValue={this.props.comment} />
