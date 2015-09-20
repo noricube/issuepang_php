@@ -18,15 +18,26 @@ class Issue extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('text_helper');
 		
-		//$part_order = array( "진행", "검토", "완료", "검수", "보류", "중지" );
-		//$set_order = array( "검토", "진행", "완료", "검수", "보류", "중지" );
+		$part_order = array( "진행", "검토", "완료", "검수", "보류", "중지" );
+		$set_order = array( "검토", "진행", "완료", "검수", "보류", "중지" );
 		
 		
 		$issues = $this->Issue_model->get_issues($last_update);
 		
+		
+		$result = array();
+		$result['issues'] = &$issues;
+		$result['last_update'] = $_SERVER['REQUEST_TIME'];
+		
+		if ( $last_update == 0 ) // 시작 요청에서만 보내줌
+		{
+			$result['part_order'] = &$part_order;
+			$result['set_order'] = &$set_order;
+		}
+		
 		$this->output
         ->set_content_type('application/json')
-        ->set_output(json_encode(array('issues' => &$issues, 'last_update'=> $_SERVER['REQUEST_TIME'] )));
+        ->set_output(json_encode($result));
 	}
 	
 	
@@ -49,17 +60,33 @@ class Issue extends CI_Controller {
 		return $this->issues($last_update);
 	}
 	
-	public function change_status($sn, $last_update)
+	public function change_status($sn)
 	{
 		$this->load->model('Issue_model');
 		$this->load->helper('url');
 		
-		$this->Issue_model->set_status($sn, urldecode($status));
+		$status = urldecode($this->input->post('status'));
+		$last_update = $this->input->post('last_update');
+		
+		$this->Issue_model->set_issue_status($sn, $status);
+
+		return $this->issues($last_update);
+	}
+	
+	public function add_issue()
+	{
+		$this->load->model('Issue_model');
+		$this->load->helper('url');
+		
+		$title = $this->input->post('issue');
+		$status = urldecode($this->input->post('status'));
+		$last_update = $this->input->post('last_update');
+		
+		$this->Issue_model->add_issue($title, $status);
 		
 		return $this->issues($last_update);
 	}
 	
-		
 	public function edit_issue($sn)
 	{
 		$this->load->model('Issue_model');
@@ -69,6 +96,19 @@ class Issue extends CI_Controller {
 		$last_update = $this->input->post('last_update');
 		
 		$this->Issue_model->set_issue_title($sn, $title);
+		
+		return $this->issues($last_update);
+	}
+	
+	public function add_comment($sn)
+	{
+		$this->load->model('Issue_model');
+		$this->load->helper('url');
+		
+		$comment = $this->input->post('comment');
+		$last_update = $this->input->post('last_update');
+		
+		$this->Issue_model->add_issue_comment($sn, $comment);
 		
 		return $this->issues($last_update);
 	}

@@ -9,6 +9,7 @@
         return (
 				<section className="comments">
 					{comments}
+					<IssueCommentAdd sn={this.props.sn}/>
 				</section>
             );
     }

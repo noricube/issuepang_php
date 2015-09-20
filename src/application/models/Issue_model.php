@@ -36,7 +36,7 @@ class Issue_model extends CI_Model {
 		
 		public function get_issues($last_update = 0)
 		{
-			$date = date("Y-m-d H:m:s", $last_update);
+			$date = date("Y-m-d H:i:s", $last_update);
 
 			$query = $this->db->from('Issue')->where('ModifiedTime >=', $date )->get();
 			
@@ -52,7 +52,7 @@ class Issue_model extends CI_Model {
 		
 		public function get_comments($sn)
 		{
-			$query = $this->db->from('Comment')->where('SN', $sn)->get();
+			$query = $this->db->from('Comment')->where('SN', $sn)->order_by('WrittenTime', 'ASC')->get();
 			
 			return $query->result_array();
 		}
@@ -91,9 +91,42 @@ class Issue_model extends CI_Model {
 			$this->db->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $comment_row['SN'])->update('Issue');
 		}
 		
-		public function set_status($sn, $status)
+		public function set_issue_status($sn, $status)
 		{
 			$this->db->set('Status', $status)->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $sn)->update('Issue');
 		}
 
+		public function add_issue($issue, $status)
+		{
+			$time = date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']);
+			
+			$issue = array(
+				'Issue' => $issue,
+				'Writer' => 0,
+				'Owner' => '',
+				'Status' => $status,
+				'WrittenTime' => $time,
+				'ModifiedTime' => $time,
+				'Archive' => 0
+			);
+			
+			$this->db->insert('Issue', $issue);
+		}
+		
+		public function add_issue_comment($sn, $comment)
+		{
+			$time = date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']);
+			
+			$issue = array(
+				'SN' => $sn,
+				'Comment' => $comment,
+				'Writer' => '석주',
+				'WrittenTime' => $time,
+				'ModifiedTime' => $time,
+			);
+			
+			$this->db->insert('Comment', $issue);
+			$this->db->set('ModifiedTime', date("Y-m-d H:i:s", $_SERVER['REQUEST_TIME']))->where('SN', $sn)->update('Issue');
+
+		}
 }

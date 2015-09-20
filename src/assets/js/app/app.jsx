@@ -7,16 +7,23 @@
         IssueActions.load();
     },
     render: function () {
-		var values = new Array;
-		for( var key in this.state.data.issues)
+	
+		var issue_groups = new Object;
+		for( var order in this.state.data.part_order )
 		{
-			values.push(this.state.data.issues[key]);
+			issue_groups[this.state.data.part_order[order]] = new Array;
 		}
 		
-		//<!--<IssueGroup key="all" issues={this.state.data.issues} />-->
+		_.each(this.state.data.issues, function (issue) {
+			issue_groups[issue.Status].push(issue);
+		});
+
         return (
 			<div className="container-fluid">
-				<IssueGroup key="title" issues={values} />
+				{_.map(issue_groups, function (value, key) {
+					var title = '모든 작업-' + key + ' (' + value.length + ')'
+					return <IssueGroup key={key} title={title} issues={value} status={key} />;
+				})}
 			</div>
         );
     }

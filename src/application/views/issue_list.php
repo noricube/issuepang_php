@@ -25,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		{
 			margin: 0em;
 			line-height: 1.2;
+			word-break: break-all;
 		}
 		
 		.owner
@@ -45,6 +46,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		.issue_id
 		{
 			margin: 0em;
+		}
+		
+		.hide_issue_editor
+		{
+			display:none;
+		}
+		
+		.hide_comment_btn
+		{
+			display:none;
+		}
+		
+		.hide_comment_add
+		{
+			display:none;
 		}
 
 		p, body
@@ -205,10 +221,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
 </script>
 
+<script type="text/javascript" src="<?=base_url()?>assets/js/libs/Autolinker.min.js" charset="utf-8"></script>
+
+
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue.js" charset="utf-8"></script>
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_actions.jsx" charset="utf-8"></script>
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_store.jsx" charset="utf-8"></script>
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_comment.jsx" charset="utf-8"></script>
+<script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_comment_add.jsx" charset="utf-8"></script>
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_comments.jsx" charset="utf-8"></script>
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_row.jsx" charset="utf-8"></script>
 <script type="text/jsx" src="<?=base_url()?>assets/js/app/issue_group.jsx" charset="utf-8"></script>
